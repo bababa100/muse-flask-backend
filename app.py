@@ -1,5 +1,9 @@
 from flask import Flask, jsonify, g
 
+from flask_cors import CORS
+
+from resources.songs import song  # adding this line
+
 import models
 
 DEBUG = True
@@ -30,6 +34,11 @@ def after_request(response):
 def index():
     return 'hi'
 
+
+CORS(song, origins=['http://localhost:3000'],
+     supports_credentials=True)  # adding this line
+
+app.register_blueprint(song, url_prefix='/api/v1/songs')  # adding this line
 
 # @app.route('/sayhi/<username>')  # When someone goes here...
 # def hello(username):  # Do this.
