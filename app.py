@@ -7,7 +7,7 @@ from resources.songs import song  # adding this line
 import models
 
 DEBUG = True
-PORT = 8003
+PORT = 8002
 
 # Initialize an instance of the Flask class.
 # This starts the website!
@@ -32,10 +32,11 @@ def after_request(response):
 
 @app.route('/')
 def index():
-    return 'hi'
+    my_list = ["Hey", "check", "this", "out"]
+    return my_list[2]
 
 
-CORS(song, origins=['http://localhost:3000'],
+CORS(song, origins=['http://localhost:3001'],
      supports_credentials=True)  # adding this line
 
 app.register_blueprint(song, url_prefix='/api/v1/songs')  # adding this line
