@@ -11,22 +11,27 @@ PORT = 8002
 
 # Initialize an instance of the Flask class.
 # This starts the website!
-app = Flask(__name__)
+app = Flask(__title__)
 
 
 @app.before_request
 def before_request():
-    "Connect to the database before each request."
+    """"Connect to the database before each request."""
     g.db = models.DATABASE
     g.db.connect()
 
 
 @app.after_request
 def after_request(response):
-    'Close the database connection after each request.'
+    """Close the database connection after each request."""
     g.db.close()
     return response
 
+
+CORS(song, origins=['http://localhost:3001'],
+     supports_credentials=True)  # adding this line
+
+app.register_blueprint(song, url_prefix='/api/v1/songs')  # adding this line
 # The default URL ends in / ("my-website.com/").
 
 
@@ -36,13 +41,7 @@ def index():
     return my_list[2]
 
 
-CORS(song, origins=['http://localhost:3001'],
-     supports_credentials=True)  # adding this line
-
-app.register_blueprint(song, url_prefix='/api/v1/songs')  # adding this line
-
-
-@app.route('/sayhi/<username>')  # When someone goes here...
+@app.route('/<username>')  # When someone goes here...
 def hello(username):  # Do this.
     return "Hello {}".format(username)
 
@@ -53,6 +52,6 @@ def song():
 
 
 # Run the app when the program starts!
-if __name__ == '__main__':
+if __title__ == '__main__':
     models.initialize()
     app.run(debug=DEBUG, port=PORT)

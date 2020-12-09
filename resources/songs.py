@@ -34,13 +34,15 @@ def get_one_song(id):
 @song.route('/', methods=["POST"])
 def create_songs():
     payload = request.get_json()
-
+    print(type(payload), 'payload')
     song = models.Song.create(**payload)
     print(song.__dict__)
     print(dir(song))
     print(model_to_dict(song), 'model to dict')
     song_dict = model_to_dict(song)
     return jsonify(data=song_dict, status={"code": 201, "message": "Success"})
+
+# Update Route
 
 
 @song.route('/<id>', methods=["PUT"])
